@@ -1,0 +1,29 @@
+<?php
+
+$input = ["eat", "tea", "tan", "ate", "nat", "bat","ant","tab"];
+
+echo '<pre>';
+print_r(group_anagram($input));
+echo '/<pre>';
+
+function group_anagram($input){
+    $export = [];
+    
+    foreach($input as $key => $item){
+    
+    	$split = str_split($item);
+        sort($split);
+        $anagram = implode('',$split);
+
+        //echo'<br />'.$item;
+        //echo'<br />'.$anagram;
+        
+        if(!array_key_exists($anagram,$export)) $export[$anagram] = [];
+        $export[$anagram][] = $item;
+    }
+    
+    return array_values($export);
+}
+
+
+?>
