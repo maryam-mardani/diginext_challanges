@@ -10,30 +10,28 @@ function merging_intervals($input){
     
     foreach($input as $key => $range){
     	
-        $i = 0;
-        $first_element = $range[0];
-		echo '<pre>'; print_r($range);
+        $i = 0;   
+        $new_merge = [];
 
         if($key == 0) $merged_range[$i] = $range;
         else{
-        	foreach($merged_range as $merged_key => $merged){
-              
-              //echo '<pre>'; print_r($merged);
-              
-              if(in_array($first_element,$merged)) {$merged_range[$merged_key] = array_merge($range,$merged);}
-              else{
-                $i++;
-                $merged_range[$i] = $range;
+        
+        	$is_merged = 0;
+        	foreach($merged_range as &$merged){
+            
+              if(in_array($range[0],$merged) || in_array($merged[0],$range)) {
+              	$is_merged = 1;
+              	$merged = array_merge($range,$merged);
+                $merged = array_unique($merged);
+              	sort($merged);
+                //break;
               }
-              
-              $merged_range[$merged_key] = array_unique($merged_range[$merged_key]);
-              sort($merged_range[$merged_key]);
             }
         	
+            if(!$is_merged) {$i++; $merged_range[$i] = $range;}
         }
     }
     
-    echo '----------------------------------';
     return $merged_range;
 }
 
